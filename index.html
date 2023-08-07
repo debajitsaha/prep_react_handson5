@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Pure component and HOC</h1>
+    <p>Q. What is Pure component and example?</p>
+    <pre>answer:- In React, a Pure Component is a class component that automatically implements the shouldComponentUpdate lifecycle method with a shallow prop and state comparison. This means that the component will only re-render when its props or state have changed, preventing unnecessary renders and optimizing the performance of the application.
+
+        Regular React components do not automatically perform this optimization and will re-render even if their props or state have not changed. On the other hand, using Pure Components can be beneficial when dealing with large and complex components that receive frequent updates, as it reduces the number of renders and improves overall performance.
+        
+        To create a Pure Component, you can extend the React.PureComponent class instead of the regular React.Component.
+        
+        Here's an example of a simple Pure Component:
+        
+        
+        import React from 'react';
+        
+        class PureButton extends React.PureComponent {
+          render() {
+            console.log('Button rendered!');
+            return (
+             <buttom onClick={this.props.onClick}>
+                {this.props.label}
+              </buttom>
+            );
+          }
+        }
+        
+        // Parent component
+        class App extends React.Component {
+          constructor(props) {
+            super(props);
+            this.state = {
+              count: 0,
+            };
+          }
+        
+          handleButtonClick = () => {
+            this.setState((prevState) => ({
+              count: prevState.count + 1,
+            }));
+          };
+        
+          render() {
+            return (
+              <div>
+                <pre>Counter: {this.state.count}</pre>
+                <PureButton label="Increment" onClick={this.handleButtonClick} />
+              </div>
+            );
+          }
+        }
+        In this example, the PureButton component extends React.PureComponent. When the App component's state changes, it will trigger a re-render of the App component. Since the PureButton component is a Pure Component, it will only re-render if its props or state have changed. When you click the "Increment" button, you'll see in the console that the "Button rendered!" message is not printed on each click, indicating that the Pure Component is not re-rendered every time the parent component re-renders.
+        
+        It's important to note that using Pure Components comes with some caveats. Shallow comparison means that nested data structures may not be handled correctly, and in such cases, regular components with custom shouldComponentUpdate logic might be more suitable. Additionally, Pure Components are less flexible in terms of optimizing complex rendering logic, and sometimes manual control over the re-rendering process might be necessary. Always use Pure Components judiciously and consider the specific requirements of your application.</pre>
+        <p>Q.what is HOC and example?</p>
+        <pre>answer:-HOC stands for "Higher-Order Component" in React. It is an advanced pattern used to enhance and reuse component logic. A Higher-Order Component is a function that takes a component as input and returns a new component with additional props or behavior. It allows you to share functionality between multiple components without repeating code.
+
+            Here's a simple example of a Higher-Order Component:
+            
+            
+            import React from 'react';
+            
+            // Higher-Order Component
+            const withPrefix = (WrappedComponent, prefix) => {
+              return (props) => {
+                // Add a prefix to the name prop
+                const newName = prefix + props.name;
+            
+                // Render the WrappedComponent with the modified props
+                return <WrappedComponent {...props} name={newName} />;
+              };
+            };
+            
+            // Regular Component
+            const Greeting = (props) => {
+              return <div>Hello, {props.name}!</div>;
+            };
+            
+            // Enhance the Greeting component with the withPrefix HOC
+            const EnhancedGreeting = withPrefix(Greeting, 'Mr. ');
+            
+            // Usage
+            const App = () => {
+              return (
+                <div>
+                  <Greeting name="John" />
+                  <EnhancedGreeting name="Smith" />
+                </div>
+              );
+            };
+            
+            export default App;
+            In this example, we have a Higher-Order Component called withPrefix. It takes two arguments: the WrappedComponent and a prefix string. The HOC returns a new component that wraps the WrappedComponent. The new component modifies the name prop by adding the provided prefix.
+            
+            We then have a regular Greeting component that takes a name prop and renders a greeting message. We enhance the Greeting component by using the withPrefix HOC to create EnhancedGreeting. The EnhancedGreeting component renders the Greeting component with the modified name prop using the withPrefix HOC.
+            
+            When rendering the App component, you'll see that the first Greeting component displays "Hello, John!", while the EnhancedGreeting component displays "Hello, Mr. Smith!". This demonstrates how the HOC can modify and enhance the behavior of the wrapped component by injecting additional props or logic.
+            
+            Higher-Order Components are powerful for code reuse and separation of concerns. They can be used for various purposes, such as adding authentication, handling data fetching, or modifying rendering behavior for different situations. However, as with any advanced pattern, it's essential to use them judiciously to avoid overcomplicating the component hierarchy and maintain code readability.
+            
+            
+            
+            
+            </pre>
+    
+</body>
+</html>

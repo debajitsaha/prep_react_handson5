@@ -1,0 +1,13 @@
+h1{
+    text-align: center;
+}
+body{
+    background-color: blueviolet;
+    font-size: large;
+}
+p{
+    color: rgb(200, 255, 0);
+}
+pre{
+color: rgb(32, 231, 231);
+}
